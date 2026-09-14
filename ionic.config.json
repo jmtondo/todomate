@@ -1,0 +1,7 @@
+{
+  "name": "todomate",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
