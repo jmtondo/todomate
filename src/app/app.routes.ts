@@ -41,6 +41,13 @@ export const routes: Routes = [
   },
 
   {
+  path: 'new-task',
+  loadComponent: () =>
+    import('./pages/add-task/add-task.page')
+      .then(m => m.AddTaskPage),
+  },
+
+  {
     path: 'tasks',
     loadComponent: () =>
       import('./pages/tasks/tasks.page').then(

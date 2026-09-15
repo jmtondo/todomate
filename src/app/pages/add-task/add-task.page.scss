@@ -1,0 +1,268 @@
+ion-content {
+  --background: #f7f7fa;
+}
+
+.page-wrapper {
+  min-height: 100%;
+  padding: 20px 18px 40px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 28px;
+}
+
+.back-button {
+  --color: #17161b;
+
+  --padding-start: 0;
+  --padding-end: 12px;
+
+  margin: 0;
+}
+
+.back-button ion-icon {
+  font-size: 25px;
+}
+
+.header-title {
+  margin-left: 4px;
+}
+
+.header-title h1 {
+  margin: 0;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  color: #17161b;
+
+  letter-spacing: -0.5px;
+}
+
+.header-title p {
+  margin: 3px 0 0;
+
+  font-size: 13px;
+
+  color: #17161b;
+  opacity: 0.5;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 19px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.form-group label {
+  margin-left: 3px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #17161b;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-item {
+  --background: #ffffff;
+
+  --padding-start: 13px;
+  --inner-padding-end: 10px;
+
+  --min-height: 54px;
+
+  border-radius: 15px;
+
+  border: 1px solid #e8e7ed;
+
+  box-shadow: 0 3px 12px rgba(23, 22, 27, 0.04);
+}
+
+.input-item ion-icon {
+  font-size: 19px;
+
+  color: #3760f9;
+
+  margin-right: 5px;
+}
+
+.input-item ion-input,
+.input-item ion-textarea,
+.input-item ion-select {
+  --color: #17161b;
+  --placeholder-color: #17161b;
+
+  font-size: 14px;
+}
+
+.input-item ion-input {
+  --placeholder-opacity: 0.4;
+}
+
+.input-item ion-textarea {
+  --placeholder-opacity: 0.4;
+
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.description-item {
+  --min-height: 100px;
+
+  align-items: flex-start;
+}
+
+
+/* =========================
+   TIME
+========================= */
+
+.time-row {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+}
+
+.time-group {
+  min-width: 0;
+}
+
+.time-group .input-item {
+  --padding-start: 10px;
+  --inner-padding-end: 5px;
+}
+
+.time-group .input-item ion-icon {
+  font-size: 17px;
+}
+
+ion-datetime-button {
+  --background: transparent;
+  --color: #17161b;
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   PRIORITY
+========================= */
+
+.priority-options {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 9px;
+}
+
+.priority-button {
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  border: 1px solid #e8e7ed;
+
+  color: #17161b;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+.priority-button.selected {
+  border-color: #3760f9;
+
+  background: #dad9fb;
+}
+
+
+/* Priority dots */
+
+.priority-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+}
+
+.priority-button.high .priority-dot {
+  background: #17161b;
+}
+
+.priority-button.medium .priority-dot {
+  background: #3760f9;
+}
+
+.priority-button.low .priority-dot {
+  background: #d2fc59;
+}
+
+
+/* =========================
+   SAVE BUTTON
+========================= */
+
+.save-button {
+  --background: #3760f9;
+  --background-activated: #2d51d7;
+
+  --color: #ffffff;
+
+  --border-radius: 16px;
+
+  --box-shadow: 0 8px 20px rgba(55, 96, 249, 0.22);
+
+  height: 54px;
+
+  margin-top: 7px;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.save-button ion-icon {
+  font-size: 20px;
+}
