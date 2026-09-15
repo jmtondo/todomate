@@ -1,0 +1,130 @@
+<ion-content [fullscreen]="true" class="signup-page">
+
+  <div class="signup-container">
+
+    <!-- Header -->
+    <div class="header-section">
+
+      <div class="back-button" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </div>
+
+      <div class="header-text">
+        <h1>Create Account</h1>
+        <p>Start organizing your day with TodoMate.</p>
+      </div>
+
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="form-section">
+
+      <!-- First Name / Last Name -->
+      <div class="name-row">
+
+        <div class="input-group">
+          <ion-icon name="person-outline"></ion-icon>
+
+          <ion-input
+            type="text"
+            placeholder="First Name"
+            fill="clear">
+          </ion-input>
+        </div>
+
+        <div class="input-group">
+          <ion-input
+            type="text"
+            placeholder="Last Name"
+            fill="clear">
+          </ion-input>
+        </div>
+
+      </div>
+
+      <!-- Email -->
+      <div class="input-group">
+        <ion-icon name="mail-outline"></ion-icon>
+
+        <ion-input
+          type="email"
+          placeholder="Email Address"
+          fill="clear">
+        </ion-input>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="input-group">
+        <ion-icon name="call-outline"></ion-icon>
+
+        <ion-input
+          type="tel"
+          placeholder="Mobile Number"
+          fill="clear">
+        </ion-input>
+      </div>
+
+      <!-- Password -->
+      <div class="input-group">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+
+        <ion-input
+          type="password"
+          placeholder="Password"
+          fill="clear">
+        </ion-input>
+
+        <ion-icon
+          name="eye-outline"
+          class="password-icon">
+        </ion-icon>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="input-group">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+
+        <ion-input
+          type="password"
+          placeholder="Confirm Password"
+          fill="clear">
+        </ion-input>
+
+        <ion-icon
+          name="eye-outline"
+          class="password-icon">
+        </ion-icon>
+      </div>
+
+      <!-- Terms -->
+      <div class="terms-section">
+
+        <ion-checkbox></ion-checkbox>
+
+        <p>
+          I agree to the
+          <a href="#">Terms & Conditions</a>
+          and
+          <a href="#">Privacy Policy</a>.
+        </p>
+
+      </div>
+
+      <!-- Sign Up Button -->
+      <ion-button
+        expand="block"
+        class="signup-button">
+        Create Account
+      </ion-button>
+
+      <!-- Login -->
+      <div class="login-link">
+        <span>Already have an account?</span>
+        <a (click)="goToLogin()">Log In</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

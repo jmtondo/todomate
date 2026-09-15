@@ -1,0 +1,257 @@
+<ion-content [fullscreen]="true">
+
+<div class="page-wrapper">
+
+<!-- Header -->
+<div class="header-container">
+
+  <div class="header-text">
+    <p class="greeting">Good morning!</p>
+    <h1>My Tasks</h1>
+    <p class="date-text">
+      {{ selectedDate | date: 'MMMM dd, yyyy' }}
+    </p>
+  </div>
+
+  <ion-button
+    fill="clear"
+    class="filter-button"
+    (click)="openFilterOptions()"
+  >
+    <ion-icon
+      name="funnel-outline"
+      slot="icon-only">
+    </ion-icon>
+  </ion-button>
+
+</div>
+
+
+<!-- Horizontal Date Picker -->
+<swiper-container
+  slides-per-view="5"
+  space-between="6"
+  class="date-slider"
+  direction="horizontal"
+>
+
+  <swiper-slide
+    *ngFor="let day of days"
+    (click)="selectDate(day)"
+    [class.active]="isSelectedDate(day)"
+  >
+
+    <div class="date-card">
+
+      <span class="month">
+        {{ day | date: 'MMM' }}
+      </span>
+
+      <span class="day">
+        {{ day | date: 'dd' }}
+      </span>
+
+      <span class="weekday">
+        {{ day | date: 'EEE' }}
+      </span>
+
+    </div>
+
+  </swiper-slide>
+
+</swiper-container>
+
+
+<!-- Progress Card -->
+<div class="progress-card">
+
+  <div class="progress-info">
+
+    <p>Today's Progress</p>
+
+    <h2>
+      {{ completedTasks.length }} / {{ totalTasks }}
+    </h2>
+
+    <span>tasks completed</span>
+
+  </div>
+
+  <div class="progress-circle">
+    <span>{{ progress }}%</span>
+  </div>
+
+</div>
+
+
+<!-- Task List -->
+<div class="task-list">
+
+  <!-- No Tasks -->
+  <div
+    *ngIf="filteredTasks.length === 0 && completedTasks.length === 0"
+    class="empty-state"
+  >
+
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
+
+    <h3>No tasks for this day</h3>
+
+    <p>
+      Add a task and start planning your day.
+    </p>
+
+  </div>
+
+
+  <!-- Active Tasks -->
+  <div *ngIf="filteredTasks.length > 0">
+
+    <h2 class="section-title">
+      Tasks
+    </h2>
+
+    <ion-card
+      *ngFor="let task of filteredTasks"
+      class="task-card"
+    >
+
+      <div class="priority-bar"
+        [class.high]="task.priority === 'High'"
+        [class.medium]="task.priority === 'Medium'"
+        [class.low]="task.priority === 'Low'">
+      </div>
+
+      <div class="task-row">
+
+        <ion-checkbox
+          [checked]="task.completed"
+          (ionChange)="toggleComplete(task)"
+        >
+        </ion-checkbox>
+
+
+        <div class="task-details">
+
+          <div class="task-meta">
+
+            <span class="priority">
+              {{ task.priority }}
+            </span>
+
+            <span class="task-time">
+              {{ task.time }}
+            </span>
+
+          </div>
+
+          <h3>
+            {{ task.title }}
+          </h3>
+
+          <p *ngIf="task.description">
+            {{ task.description }}
+          </p>
+
+        </div>
+
+
+        <ion-button
+          fill="clear"
+          size="small"
+          class="menu-button"
+          (click)="openTaskMenu(task)"
+        >
+
+          <ion-icon
+            name="ellipsis-vertical">
+          </ion-icon>
+
+        </ion-button>
+
+      </div>
+
+    </ion-card>
+
+  </div>
+
+
+  <!-- Completed Tasks -->
+  <div *ngIf="completedTasks.length > 0">
+
+    <h2 class="section-title completed-title">
+      Completed Tasks
+    </h2>
+
+
+    <ion-card
+      *ngFor="let task of completedTasks"
+      class="task-card completed"
+    >
+
+      <div class="priority-bar"></div>
+
+      <div class="task-row">
+
+        <ion-checkbox
+          [checked]="task.completed"
+          (ionChange)="toggleComplete(task)"
+        >
+        </ion-checkbox>
+
+
+        <div class="task-details">
+
+          <h3>
+            {{ task.title }}
+          </h3>
+
+          <p>
+            {{ task.description }}
+          </p>
+
+        </div>
+
+
+        <ion-button
+          fill="clear"
+          size="small"
+          class="menu-button"
+          (click)="openTaskMenu(task)"
+        >
+
+          <ion-icon
+            name="ellipsis-vertical">
+          </ion-icon>
+
+        </ion-button>
+
+      </div>
+
+    </ion-card>
+
+  </div>
+
+</div>
+
+
+<!-- Floating Add Task Button -->
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  class="add-task-fab"
+>
+
+  <ion-fab-button
+    (click)="goToNewTask()"
+  >
+
+    <ion-icon name="add"></ion-icon>
+
+  </ion-fab-button>
+
+</ion-fab>
+
+</div>
+
+</ion-content>
