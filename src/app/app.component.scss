@@ -1,0 +1,109 @@
+ion-app {
+  height: 100%;
+}
+
+.app-shell {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #f7f7fa;
+}
+
+.app-content {
+  flex: 1;
+
+  min-height: 0;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* =========================
+   BOTTOM NAVBAR
+========================= */
+
+.bottom-navbar {
+  flex-shrink: 0;
+
+  width: 100%;
+
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e8e7ed;
+
+  box-shadow: 0 -4px 15px rgba(23, 22, 27, 0.06);
+
+  padding: 6px 20px 8px;
+
+  z-index: 100;
+}
+
+
+/* =========================
+   NAV BUTTON
+========================= */
+
+.nav-button {
+  width: 90px;
+  height: 58px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  border: none;
+
+  border-radius: 15px;
+
+  background: transparent;
+
+  color: #17161b;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.nav-button ion-icon {
+  font-size: 22px;
+}
+
+
+.nav-button span {
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+.nav-button.active {
+  background: #dad9fb;
+
+  color: #3760f9;
+}
+
+
+.nav-button.active span {
+  font-weight: 800;
+}
+
+
+.nav-button:active {
+  transform: scale(0.95);
+}

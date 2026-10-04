@@ -1,0 +1,311 @@
+<ion-content [fullscreen]="true">
+
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="header">
+
+      <ion-button
+        fill="clear"
+        class="back-button"
+        (click)="goBack()">
+
+        <ion-icon
+          name="arrow-back-outline"
+          slot="icon-only">
+        </ion-icon>
+
+      </ion-button>
+
+      <div class="header-title">
+
+        <h1>Edit Task</h1>
+
+        <p>Update your task</p>
+
+      </div>
+
+    </div>
+
+
+    <!-- Task Form -->
+    <div class="form-container">
+
+
+      <!-- Task Title -->
+      <div class="form-group">
+
+        <label>Task Title</label>
+
+        <ion-item
+          lines="none"
+          class="input-item">
+
+          <ion-icon
+            name="create-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-input
+            [(ngModel)]="task.title"
+            placeholder="Enter task title">
+          </ion-input>
+
+        </ion-item>
+
+      </div>
+
+
+      <!-- Description -->
+      <div class="form-group">
+
+        <label>Description</label>
+
+        <ion-item
+          lines="none"
+          class="input-item description-item">
+
+          <ion-textarea
+            [(ngModel)]="task.description"
+            placeholder="What do you need to do?"
+            [autoGrow]="true">
+          </ion-textarea>
+
+        </ion-item>
+
+      </div>
+
+
+      <!-- Date -->
+      <div class="form-group">
+
+        <label>Date</label>
+
+        <ion-item
+          lines="none"
+          class="input-item">
+
+          <ion-icon
+            name="calendar-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-datetime-button
+            datetime="edit-task-date">
+          </ion-datetime-button>
+
+        </ion-item>
+
+
+        <ion-modal [keepContentsMounted]="true">
+
+          <ng-template>
+
+            <ion-datetime
+              id="edit-task-date"
+              presentation="date"
+              [(ngModel)]="task.date">
+            </ion-datetime>
+
+          </ng-template>
+
+        </ion-modal>
+
+      </div>
+
+
+      <!-- Time -->
+      <div class="time-row">
+
+
+        <!-- Start Time -->
+        <div class="form-group time-group">
+
+          <label>Start Time</label>
+
+          <ion-item
+            lines="none"
+            class="input-item">
+
+            <ion-icon
+              name="time-outline"
+              slot="start">
+            </ion-icon>
+
+            <ion-datetime-button
+              datetime="edit-start-time">
+            </ion-datetime-button>
+
+          </ion-item>
+
+
+          <ion-modal [keepContentsMounted]="true">
+
+            <ng-template>
+
+              <ion-datetime
+                id="edit-start-time"
+                presentation="time"
+                [(ngModel)]="task.startTime">
+              </ion-datetime>
+
+            </ng-template>
+
+          </ion-modal>
+
+        </div>
+
+
+        <!-- End Time -->
+        <div class="form-group time-group">
+
+          <label>End Time</label>
+
+          <ion-item
+            lines="none"
+            class="input-item">
+
+            <ion-icon
+              name="time-outline"
+              slot="start">
+            </ion-icon>
+
+            <ion-datetime-button
+              datetime="edit-end-time">
+            </ion-datetime-button>
+
+          </ion-item>
+
+
+          <ion-modal [keepContentsMounted]="true">
+
+            <ng-template>
+
+              <ion-datetime
+                id="edit-end-time"
+                presentation="time"
+                [(ngModel)]="task.endTime">
+              </ion-datetime>
+
+            </ng-template>
+
+          </ion-modal>
+
+        </div>
+
+      </div>
+
+
+      <!-- Priority -->
+      <div class="form-group">
+
+        <label>Priority</label>
+
+        <div class="priority-options">
+
+
+          <button
+            type="button"
+            class="priority-button high"
+            [class.selected]="task.priority === 'High'"
+            (click)="selectPriority('High')">
+
+            <span class="priority-dot"></span>
+
+            <span>High</span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="priority-button medium"
+            [class.selected]="task.priority === 'Medium'"
+            (click)="selectPriority('Medium')">
+
+            <span class="priority-dot"></span>
+
+            <span>Medium</span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="priority-button low"
+            [class.selected]="task.priority === 'Low'"
+            (click)="selectPriority('Low')">
+
+            <span class="priority-dot"></span>
+
+            <span>Low</span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- Category -->
+      <div class="form-group">
+
+        <label>Category</label>
+
+        <ion-item
+          lines="none"
+          class="input-item">
+
+          <ion-icon
+            name="grid-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-select
+            [(ngModel)]="task.category"
+            placeholder="Select category"
+            interface="popover">
+
+            <ion-select-option value="School">
+              School
+            </ion-select-option>
+
+            <ion-select-option value="Work">
+              Work
+            </ion-select-option>
+
+            <ion-select-option value="Personal">
+              Personal
+            </ion-select-option>
+
+            <ion-select-option value="Others">
+              Others
+            </ion-select-option>
+
+          </ion-select>
+
+        </ion-item>
+
+      </div>
+
+
+      <!-- Save Button -->
+      <ion-button
+        expand="block"
+        class="save-button"
+        (click)="saveChanges()">
+
+        <ion-icon
+          name="checkmark-outline"
+          slot="start">
+        </ion-icon>
+
+        Save Changes
+
+      </ion-button>
+
+    </div>
+
+  </div>
+
+</ion-content>

@@ -72,6 +72,13 @@ export const routes: Routes = [
   },
 
   {
+    path: 'edit-task',
+    loadComponent: () =>
+      import('./pages/edit-task/edit-task.page')
+        .then(m => m.EditTaskPage),
+  },
+
+  {
     path: 'profile',
     loadComponent: () =>
       import('./pages/profile/profile.page').then(

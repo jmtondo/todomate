@@ -1,3 +1,68 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+  <div class="app-shell">
+
+    <!-- Page Content -->
+    <div class="app-content">
+
+      <ion-router-outlet></ion-router-outlet>
+
+    </div>
+
+
+    <!-- Bottom Navigation -->
+    @if (showNavbar) {
+
+      <div class="bottom-navbar">
+
+        <!-- HOME -->
+        <button
+          class="nav-button"
+          [class.active]="isActive('/home')"
+          (click)="router.navigate(['/home'])">
+
+          <ion-icon
+            [name]="isActive('/home') ? 'home' : 'home-outline'">
+          </ion-icon>
+
+          <span>Home</span>
+
+        </button>
+
+
+        <!-- ACTIVITY -->
+        <button
+          class="nav-button"
+          [class.active]="isActive('/activity')"
+          (click)="router.navigate(['/activity'])">
+
+          <ion-icon
+            [name]="isActive('/activity') ? 'pulse' : 'pulse-outline'">
+          </ion-icon>
+
+          <span>Activity</span>
+
+        </button>
+
+
+        <!-- SETTINGS -->
+        <button
+          class="nav-button"
+          [class.active]="isActive('/settings')"
+          (click)="router.navigate(['/settings'])">
+
+          <ion-icon
+            [name]="isActive('/settings') ? 'settings' : 'settings-outline'">
+          </ion-icon>
+
+          <span>Settings</span>
+
+        </button>
+
+      </div>
+
+    }
+
+  </div>
+
 </ion-app>

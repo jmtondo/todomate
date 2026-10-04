@@ -1,19 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonButton
+} from '@ionic/angular';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-details',
   templateUrl: './task-details.page.html',
   styleUrls: ['./task-details.page.scss'],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  standalone: true,
+
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    CommonModule,
+    FormsModule
+  ]
 })
-export class TaskDetailsPage implements OnInit {
+export class TaskDetailsPage {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  editTask() {
+
+    this.router.navigate(['/edit-task']);
+
   }
 
 }
