@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
   IonApp,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel
+  IonIcon
 } from '@ionic/angular';
 
-import { Router, NavigationEnd } from '@angular/router';
+import {
+  Router,
+  NavigationEnd
+} from '@angular/router';
+
 import { filter } from 'rxjs/operators';
 import { addIcons } from 'ionicons';
 
@@ -20,30 +21,30 @@ import {
   pulseOutline,
   pulse,
   settingsOutline,
-  settings,
+  settings
 } from 'ionicons/icons';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 
   imports: [
+    CommonModule,
     IonApp,
     IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonIcon,
-    IonLabel,
-    CommonModule
+    IonIcon
   ],
 })
 export class AppComponent {
 
   showNavbar = false;
-
   currentRoute = '';
 
-  constructor(public router: Router) {
+  constructor(
+    public router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
 
     addIcons({
       homeOutline,
@@ -54,56 +55,67 @@ export class AppComponent {
       settings
     });
 
+    /*
+     * Detect every route change.
+     */
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd)
+        filter(
+          (event): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        )
       )
-      .subscribe((event: NavigationEnd) => {
+      .subscribe(event => {
 
         this.currentRoute = event.urlAfterRedirects;
 
         this.updateNavbarVisibility();
 
+        // Make sure the navbar updates immediately
+        this.cdr.detectChanges();
       });
 
-    this.currentRoute = this.router.url;
-
-    this.updateNavbarVisibility();
+    /*
+     * Handle direct URL navigation such as:
+     * localhost:8100/home
+     */
+    setTimeout(() => {
+      this.currentRoute = this.router.url;
+      this.updateNavbarVisibility();
+      this.cdr.detectChanges();
+    });
   }
 
-
-  // ==============================
-  // NAVBAR VISIBILITY
-  // ==============================
 
   private updateNavbarVisibility() {
 
     const hiddenRoutes = [
+      '/splash',
       '/login',
       '/signup',
-      '/splash',
+      '/new-task',
       '/add-task',
       '/edit-task',
       '/task-details'
     ];
 
-    this.showNavbar =
-      !hiddenRoutes.some(route =>
-        this.currentRoute.startsWith(route)
-      );
-
+    this.showNavbar = !hiddenRoutes.some(route =>
+      this.currentRoute.startsWith(route)
+    );
   }
 
 
-  // ==============================
-  // ACTIVE TAB
-  // ==============================
-
   isActive(route: string): boolean {
 
-    return this.currentRoute === route ||
-      this.currentRoute.startsWith(route + '/');
+    return (
+      this.currentRoute === route ||
+      this.currentRoute.startsWith(route + '/')
+    );
+  }
 
+
+  goTo(route: string) {
+    this.router.navigate([route]);
   }
 
 }

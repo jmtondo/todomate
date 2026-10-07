@@ -1,67 +1,52 @@
 <ion-app>
 
-  <div class="app-shell">
+  <div
+    class="app-content"
+    [class.with-navbar]="showNavbar"
+  >
+    <ion-router-outlet></ion-router-outlet>
+  </div>
 
-    <!-- Page Content -->
-    <div class="app-content">
+  <div class="bottom-navbar" *ngIf="showNavbar">
 
-      <ion-router-outlet></ion-router-outlet>
+    <!-- HOME -->
+    <button
+      class="nav-item"
+      [class.active]="isActive('/home')"
+      (click)="router.navigate(['/home'])"
+    >
+      <ion-icon
+        [name]="isActive('/home') ? 'home' : 'home-outline'">
+      </ion-icon>
 
-    </div>
+      <span>Home</span>
+    </button>
 
+    <!-- ACTIVITY -->
+    <button
+      class="nav-item"
+      [class.active]="isActive('/activity')"
+      (click)="router.navigate(['/activity'])"
+    >
+      <ion-icon
+        [name]="isActive('/activity') ? 'pulse' : 'pulse-outline'">
+      </ion-icon>
 
-    <!-- Bottom Navigation -->
-    @if (showNavbar) {
+      <span>Activity</span>
+    </button>
 
-      <div class="bottom-navbar">
+    <!-- SETTINGS -->
+    <button
+      class="nav-item"
+      [class.active]="isActive('/settings')"
+      (click)="router.navigate(['/settings'])"
+    >
+      <ion-icon
+        [name]="isActive('/settings') ? 'settings' : 'settings-outline'">
+      </ion-icon>
 
-        <!-- HOME -->
-        <button
-          class="nav-button"
-          [class.active]="isActive('/home')"
-          (click)="router.navigate(['/home'])">
-
-          <ion-icon
-            [name]="isActive('/home') ? 'home' : 'home-outline'">
-          </ion-icon>
-
-          <span>Home</span>
-
-        </button>
-
-
-        <!-- ACTIVITY -->
-        <button
-          class="nav-button"
-          [class.active]="isActive('/activity')"
-          (click)="router.navigate(['/activity'])">
-
-          <ion-icon
-            [name]="isActive('/activity') ? 'pulse' : 'pulse-outline'">
-          </ion-icon>
-
-          <span>Activity</span>
-
-        </button>
-
-
-        <!-- SETTINGS -->
-        <button
-          class="nav-button"
-          [class.active]="isActive('/settings')"
-          (click)="router.navigate(['/settings'])">
-
-          <ion-icon
-            [name]="isActive('/settings') ? 'settings' : 'settings-outline'">
-          </ion-icon>
-
-          <span>Settings</span>
-
-        </button>
-
-      </div>
-
-    }
+      <span>Settings</span>
+    </button>
 
   </div>
 

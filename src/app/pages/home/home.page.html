@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content>
 
 <div class="page-wrapper">
 
@@ -6,7 +6,7 @@
 <div class="header-container">
 
   <div class="header-text">
-    <p class="greeting">Good morning!</p>
+    <p class="greeting">{{ greeting }}</p>
     <h1>My Tasks</h1>
     <p class="date-text">
       {{ selectedDate | date: 'MMMM dd, yyyy' }}
@@ -16,6 +16,7 @@
   <ion-button
     fill="clear"
     class="filter-button"
+    [class.filtered]="selectedPriority !== 'All'"
     (click)="openFilterOptions()"
   >
     <ion-icon
@@ -95,10 +96,12 @@
 
     <ion-icon name="checkmark-circle-outline"></ion-icon>
 
-    <h3>No tasks for this day</h3>
+    <h3>
+      {{ selectedPriority === 'All' ? 'No tasks for this day' : 'No ' + selectedPriority + ' priority tasks' }}
+    </h3>
 
     <p>
-      Add a task and start planning your day.
+      {{ selectedPriority === 'All' ? 'Add a task and start planning your day.' : 'Try another filter or add a new task.' }}
     </p>
 
   </div>
@@ -126,7 +129,7 @@
 
         <ion-checkbox
           [checked]="task.completed"
-          (ionChange)="toggleComplete(task)"
+          (ionChange)="setTaskCompleted(task, $event.detail.checked)"
         >
         </ion-checkbox>
 
@@ -195,7 +198,7 @@
 
         <ion-checkbox
           [checked]="task.completed"
-          (ionChange)="toggleComplete(task)"
+          (ionChange)="setTaskCompleted(task, $event.detail.checked)"
         >
         </ion-checkbox>
 
@@ -234,9 +237,12 @@
 
 </div>
 
+</div>
+
 
 <!-- Floating Add Task Button -->
 <ion-fab
+  slot="fixed"
   vertical="bottom"
   horizontal="end"
   class="add-task-fab"
@@ -251,7 +257,5 @@
   </ion-fab-button>
 
 </ion-fab>
-
-</div>
 
 </ion-content>

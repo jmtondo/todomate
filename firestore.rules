@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function validProfile() {
+      return request.resource.data.keys().hasAll([
+          'displayName', 'email', 'phone', 'createdAt'
+        ]) &&
+        request.resource.data.keys().hasOnly([
+          'displayName', 'email', 'phone', 'createdAt'
+        ]) &&
+        request.resource.data.displayName is string &&
+        request.resource.data.displayName.size() > 0 &&
+        request.resource.data.displayName.size() <= 100 &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() <= 254 &&
+        request.resource.data.email == request.auth.token.email &&
+        request.resource.data.phone is string &&
+        request.resource.data.phone.size() <= 40 &&
+        request.resource.data.createdAt is timestamp;
+    }
+
+    function validTask() {
+      let data = request.resource.data;
+      return data.keys().hasAll([
+          'userId', 'title', 'description', 'date', 'time', 'priority',
+          'category', 'completed'
+        ]) &&
+        data.keys().hasOnly([
+          'userId', 'title', 'description', 'date', 'time', 'priority',
+          'category', 'completed', 'completedAt'
+        ]) &&
+        data.userId is string &&
+        data.userId == request.auth.uid &&
+        data.title is string &&
+        data.title.size() > 0 &&
+        data.title.size() <= 200 &&
+        data.description is string &&
+        data.description.size() <= 4000 &&
+        data.date is timestamp &&
+        data.time is string &&
+        data.time.size() > 0 &&
+        data.time.size() <= 64 &&
+        data.priority in ['High', 'Medium', 'Low'] &&
+        data.category is string &&
+        data.category.size() > 0 &&
+        data.category.size() <= 80 &&
+        data.completed is bool &&
+        (!data.keys().hasAny(['completedAt']) || data.completedAt is timestamp);
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && validProfile();
+      allow update: if isOwner(userId) &&
+        validProfile() &&
+        request.resource.data.createdAt == resource.data.createdAt;
+
+      match /tasks/{taskId} {
+        allow read, delete: if isOwner(userId);
+        allow create: if isOwner(userId) && validTask();
+        allow update: if isOwner(userId) &&
+          request.resource.data.userId == resource.data.userId &&
+          validTask();
+      }
+    }
+
+    match /tasks/{taskId} {
+      allow read, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && validTask();
+      allow update: if request.auth != null &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == resource.data.userId &&
+        validTask();
+    }
+  }
+}

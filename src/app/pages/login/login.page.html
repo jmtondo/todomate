@@ -25,6 +25,8 @@
         <ion-input
           type="email"
           placeholder="Email or Phone Number"
+          [(ngModel)]="email"
+          name="email"
           fill="clear">
         </ion-input>
       </div>
@@ -34,27 +36,37 @@
         <ion-icon name="lock-closed-outline"></ion-icon>
 
         <ion-input
-          type="password"
+          #passwordInput
+          [type]="showPassword ? 'text' : 'password'"
           placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
           fill="clear">
         </ion-input>
 
-        <ion-icon
-          name="eye-outline"
-          class="password-icon">
-        </ion-icon>
+        <button
+          type="button"
+          class="password-toggle"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          [attr.aria-pressed]="showPassword"
+          (mousedown)="$event.preventDefault()"
+          (click)="togglePasswordVisibility(passwordInput.value)">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
       </div>
 
       <!-- Login Button -->
       <ion-button
         expand="block"
-        class="login-button">
+        class="login-button"
+        [disabled]="busy"
+        (click)="login()">
         Log In
       </ion-button>
 
       <!-- Forgot Password -->
       <div class="forgot-password">
-        <a href="#">Forgot Password?</a>
+        <a (click)="forgotPassword()">Forgot Password?</a>
       </div>
 
       <!-- Divider -->

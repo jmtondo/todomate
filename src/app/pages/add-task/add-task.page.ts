@@ -12,7 +12,8 @@ import {
   IonDatetimeButton,
   IonModal,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  ToastController
 } from '@ionic/angular';
 
 import { FormsModule } from '@angular/forms';
@@ -29,6 +30,8 @@ import {
   gridOutline,
   checkmarkOutline
 } from 'ionicons/icons';
+
+import { TaskService } from '../../services/task.service';
 
 interface TaskForm {
   title: string;
@@ -68,15 +71,17 @@ export class AddTaskPage {
   task: TaskForm = {
     title: '',
     description: '',
-    date: new Date().toISOString(),
-    startTime: new Date().toISOString(),
-    endTime: new Date().toISOString(),
+    date: this.nowLocalIso(),
+    startTime: this.nowLocalIso(),
+    endTime: this.nowLocalIso(),
     priority: 'Medium',
     category: ''
   };
 
   constructor(
-    private router: Router
+    private router: Router,
+    private taskService: TaskService,
+    private toastController: ToastController
   ) {
 
     addIcons({
@@ -107,20 +112,73 @@ export class AddTaskPage {
   // SAVE TASK
   // ==============================
 
-  saveTask() {
+  async saveTask() {
 
     if (!this.task.title.trim()) {
 
-      console.log('Task title is required');
+      const toast = await this.toastController.create({
+        message: 'Please enter a task title',
+        duration: 1800,
+        position: 'top'
+      });
+
+      await toast.present();
 
       return;
     }
 
-    console.log('New Task:', this.task);
+    // Turn the date picker text (e.g. "2026-10-05...") into a real Date
+    // for that day, which Home and Activity need.
+    const [year, month, day] = this.task.date
+      .substring(0, 10)
+      .split('-')
+      .map(Number);
 
-    // Firebase will be connected here later.
+    try {
+      await this.taskService.add({
+        id: Date.now(),
+        title: this.task.title.trim(),
+        description: this.task.description,
+        date: new Date(year, month - 1, day),
+        time: `${this.formatTime(this.task.startTime)} - ${this.formatTime(this.task.endTime)}`,
+        priority: this.task.priority,
+        category: this.task.category || 'Others',
+        completed: false
+      });
+      await this.router.navigate(['/home']);
+    } catch (error) {
+      const toast = await this.toastController.create({
+        message: error instanceof Error ? error.message : String(error),
+        duration: 2600,
+        position: 'top'
+      });
+      await toast.present();
+    }
+  }
 
-    this.router.navigate(['/home']);
+
+  // ==============================
+  // HELPERS
+  // ==============================
+
+  // Current local time as an ISO string without "Z", so the date and time
+  // pickers show your real local time (Philippines), not UTC.
+  private nowLocalIso(): string {
+
+    const d = new Date();
+
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+
+    return d.toISOString().slice(0, 19);
+  }
+
+  // "2026-10-05T14:30:00" -> "2:30 PM"
+  private formatTime(iso: string): string {
+
+    return new Date(iso).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit'
+    });
   }
 
 

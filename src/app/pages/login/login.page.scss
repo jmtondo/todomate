@@ -145,10 +145,21 @@
   font-size: 15px;
 }
 
-.password-icon {
-  margin-right: 0 !important;
+.password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 4px;
   margin-left: 8px;
+  border: 0;
+  background: transparent;
   cursor: pointer;
+}
+
+.password-toggle ion-icon {
+  color: #dad9fb;
+  font-size: 22px;
 }
 
 /* Login button */

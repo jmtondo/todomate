@@ -28,6 +28,8 @@
           <ion-input
             type="text"
             placeholder="First Name"
+            [(ngModel)]="firstName"
+            name="firstName"
             fill="clear">
           </ion-input>
         </div>
@@ -36,6 +38,8 @@
           <ion-input
             type="text"
             placeholder="Last Name"
+            [(ngModel)]="lastName"
+            name="lastName"
             fill="clear">
           </ion-input>
         </div>
@@ -49,6 +53,8 @@
         <ion-input
           type="email"
           placeholder="Email Address"
+          [(ngModel)]="email"
+          name="email"
           fill="clear">
         </ion-input>
       </div>
@@ -60,6 +66,8 @@
         <ion-input
           type="tel"
           placeholder="Mobile Number"
+          [(ngModel)]="phone"
+          name="phone"
           fill="clear">
         </ion-input>
       </div>
@@ -69,15 +77,23 @@
         <ion-icon name="lock-closed-outline"></ion-icon>
 
         <ion-input
-          type="password"
+          #passwordInput
+          [type]="showPassword ? 'text' : 'password'"
           placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
           fill="clear">
         </ion-input>
 
-        <ion-icon
-          name="eye-outline"
-          class="password-icon">
-        </ion-icon>
+        <button
+          type="button"
+          class="password-toggle"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          [attr.aria-pressed]="showPassword"
+          (mousedown)="$event.preventDefault()"
+          (click)="togglePasswordVisibility(passwordInput.value)">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
       </div>
 
       <!-- Confirm Password -->
@@ -85,21 +101,29 @@
         <ion-icon name="lock-closed-outline"></ion-icon>
 
         <ion-input
-          type="password"
+          #confirmPasswordInput
+          [type]="showConfirmPassword ? 'text' : 'password'"
           placeholder="Confirm Password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
           fill="clear">
         </ion-input>
 
-        <ion-icon
-          name="eye-outline"
-          class="password-icon">
-        </ion-icon>
+        <button
+          type="button"
+          class="password-toggle"
+          [attr.aria-label]="showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'"
+          [attr.aria-pressed]="showConfirmPassword"
+          (mousedown)="$event.preventDefault()"
+          (click)="toggleConfirmPasswordVisibility(confirmPasswordInput.value)">
+          <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
       </div>
 
       <!-- Terms -->
       <div class="terms-section">
 
-        <ion-checkbox></ion-checkbox>
+        <ion-checkbox [(ngModel)]="acceptedTerms" name="acceptedTerms"></ion-checkbox>
 
         <p>
           I agree to the
@@ -113,7 +137,9 @@
       <!-- Sign Up Button -->
       <ion-button
         expand="block"
-        class="signup-button">
+        class="signup-button"
+        [disabled]="busy"
+        (click)="register()">
         Create Account
       </ion-button>
 

@@ -1,0 +1,788 @@
+:host {
+  --ink: #17161b;
+  --ink-soft: #2a2930;
+  --blue: #3760f9;
+  --blue-deep: #2d51d7;
+  --lavender: #dad9fb;
+  --lavender-soft: #eeeefd;
+  --lime: #d2fc59;
+  --olive: #a8a01f;
+  --line: #e8e7ed;
+  --surface: #ffffff;
+  --bg: #f7f7fa;
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  --shadow-card: 0 1px 2px rgba(23, 22, 27, 0.04), 0 8px 24px rgba(23, 22, 27, 0.05);
+  --shadow-press: 0 2px 6px rgba(23, 22, 27, 0.08);
+}
+
+ion-content {
+  --background: radial-gradient(
+      110% 50% at 100% 0%,
+      var(--lavender-soft) 0%,
+      rgba(238, 238, 253, 0) 62%
+    ),
+    radial-gradient(
+      80% 40% at 0% 100%,
+      rgba(210, 252, 89, 0.12) 0%,
+      rgba(210, 252, 89, 0) 70%
+    ),
+    var(--bg);
+}
+
+.page-wrapper {
+  min-height: 100%;
+  padding: 28px 18px 120px;
+}
+
+/* Shared tactile feedback on every button */
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.header-text .label {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  opacity: 0.55;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -1.2px;
+}
+
+.filter-button {
+  --color: var(--ink);
+  --background: var(--surface);
+  --background-activated: var(--lavender-soft);
+  --border-radius: 15px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --box-shadow: var(--shadow-card);
+
+  width: 46px;
+  height: 46px;
+  margin: 0;
+}
+
+.filter-button ion-icon {
+  font-size: 21px;
+}
+
+/* =========================
+   VIEW TOGGLE (segmented control)
+========================= */
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 28px;
+
+  border-radius: 19px;
+  background: rgba(23, 22, 27, 0.06);
+  box-shadow: inset 0 1px 2px rgba(23, 22, 27, 0.06);
+}
+
+.toggle-button {
+  flex: 1;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border-radius: 15px;
+  border: none;
+  background: transparent;
+
+  color: var(--ink);
+  opacity: 0.6;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.toggle-button ion-icon {
+  font-size: 17px;
+}
+
+.toggle-button.active {
+  background: var(--ink);
+  color: var(--lime);
+  opacity: 1;
+  box-shadow: 0 8px 18px rgba(23, 22, 27, 0.24);
+}
+
+/* =========================
+   POMODORO - MODE
+========================= */
+.mode-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 34px;
+}
+
+.mode-button {
+  flex: 1;
+  height: 40px;
+  padding: 0 4px;
+
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+
+  color: var(--ink);
+  opacity: 0.6;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mode-button.active {
+  background: var(--lavender);
+  border-color: var(--blue);
+  color: var(--blue);
+  opacity: 1;
+  box-shadow: 0 6px 16px rgba(55, 96, 249, 0.2);
+}
+
+/* =========================
+   TIMER RING
+   The one hero element of the page.
+========================= */
+.timer-ring {
+  position: relative;
+  width: 268px;
+  height: 268px;
+  margin: 0 auto 34px;
+  animation: ring-in 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+/* Soft halo outside the ring */
+.timer-ring::after {
+  content: '';
+  position: absolute;
+  inset: -6%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(55, 96, 249, 0.1) 0%,
+    rgba(55, 96, 249, 0) 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* White dial plate behind the ring */
+.timer-ring::before {
+  content: '';
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 22%, #ffffff 0%, #f4f4fa 100%);
+  box-shadow:
+    0 22px 44px rgba(23, 22, 27, 0.1),
+    inset 0 0 0 1px rgba(23, 22, 27, 0.03),
+    inset 0 -6px 14px rgba(55, 96, 249, 0.05);
+  z-index: 1;
+}
+
+.ring-svg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ring-bg {
+  stroke: var(--lavender);
+  stroke-width: 10;
+  opacity: 0.55;
+}
+
+/* Linear + short so the color fills smoothly every tick.
+   Stroke color comes from [attr.stroke] in the template, so it is not set here. */
+.ring-progress {
+  stroke-width: 12;
+  transition: stroke-dashoffset 0.25s linear;
+  filter: drop-shadow(0 3px 6px rgba(23, 22, 27, 0.2));
+}
+
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-text .time {
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -2.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-text .session-label {
+  margin-top: 12px;
+  padding: 5px 13px;
+
+  border-radius: 999px;
+  background: var(--lavender-soft);
+
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+@keyframes ring-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   CONTROLS
+========================= */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.control-button {
+  --color: var(--ink);
+  --background: var(--surface);
+  --background-activated: var(--lavender-soft);
+  --border-radius: 50%;
+  --box-shadow: var(--shadow-card);
+  --padding-start: 0;
+  --padding-end: 0;
+
+  width: 54px;
+  height: 54px;
+  margin: 0;
+}
+
+.control-button ion-icon {
+  font-size: 21px;
+}
+
+.play-button {
+  --background: linear-gradient(135deg, #5a7dff 0%, var(--blue) 50%, var(--blue-deep) 100%);
+  --background-activated: var(--blue-deep);
+  --color: #ffffff;
+  --border-radius: 20px;
+  --box-shadow:
+    0 14px 28px rgba(55, 96, 249, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  height: 60px;
+  flex: 1;
+  max-width: 190px;
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: none;
+}
+
+.play-button ion-icon {
+  font-size: 20px;
+}
+
+/* Pause state: dark with lime text, same as the active toggle buttons */
+.play-button.running {
+  --background: linear-gradient(135deg, var(--ink-soft) 0%, var(--ink) 100%);
+  --background-activated: var(--ink-soft);
+  --color: var(--lime);
+  --box-shadow:
+    0 14px 28px rgba(23, 22, 27, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   SESSION CARD
+========================= */
+.session-card {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--lavender) 0%, #c6c5f6 100%);
+  box-shadow: 0 12px 28px rgba(55, 96, 249, 0.16);
+}
+
+/* Decorative circles in the corner */
+.session-card::before,
+.session-card::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.session-card::before {
+  width: 140px;
+  height: 140px;
+  right: -40px;
+  top: -60px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.session-card::after {
+  width: 90px;
+  height: 90px;
+  left: -30px;
+  bottom: -50px;
+  background: rgba(55, 96, 249, 0.1);
+}
+
+.session-info,
+.session-dots {
+  position: relative;
+  z-index: 1;
+}
+
+.session-info p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.65;
+}
+
+.session-info h2 {
+  margin: 4px 0 0;
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -1.2px;
+}
+
+.session-dots {
+  display: grid;
+  grid-template-columns: repeat(4, 13px);
+  gap: 9px;
+}
+
+.session-dots .dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.session-dots .dot.filled {
+  background: var(--blue);
+  transform: scale(1.12);
+  box-shadow: 0 3px 8px rgba(55, 96, 249, 0.45);
+}
+
+/* =========================
+   STATS - PERIOD
+========================= */
+.period-row {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+
+  border-radius: 17px;
+  background: rgba(23, 22, 27, 0.06);
+  box-shadow: inset 0 1px 2px rgba(23, 22, 27, 0.06);
+}
+
+.period-button {
+  flex: 1;
+  height: 40px;
+
+  border-radius: 13px;
+  border: none;
+  background: transparent;
+
+  color: var(--ink);
+  opacity: 0.6;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.period-button.active {
+  background: var(--surface);
+  color: var(--ink);
+  opacity: 1;
+  box-shadow: var(--shadow-press);
+}
+
+/* =========================
+   SUMMARY GRID
+========================= */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+
+  padding: 16px 14px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.summary-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+}
+
+.summary-icon ion-icon {
+  font-size: 23px;
+}
+
+.summary-icon.blue { background: var(--lavender); }
+.summary-icon.blue ion-icon { color: var(--blue); }
+
+.summary-icon.yellow { background: #f0efc9; }
+.summary-icon.yellow ion-icon { color: var(--olive); }
+
+.summary-icon.dark { background: var(--ink); }
+.summary-icon.dark ion-icon { color: var(--lime); }
+
+.summary-icon.green { background: #e0f5d0; }
+.summary-icon.green ion-icon { color: #4a9e2c; }
+
+.summary-text {
+  min-width: 0;
+}
+
+.summary-text h2 {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.1;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summary-text p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  opacity: 0.5;
+}
+
+/* =========================
+   CHART CARD
+   Kept like the original design:
+   no track behind bars, empty days are small blue pills.
+========================= */
+.chart-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 3px 12px rgba(23, 22, 27, 0.04);
+  margin-bottom: 18px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.chart-header span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.45;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  height: 160px;
+}
+
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.bar-track {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar-fill {
+  width: 70%;
+  min-height: 4px;
+  border-radius: 7px 7px 3px 3px;
+  background: var(--blue);
+  transition: height 0.4s ease;
+}
+
+.bar-fill.high { background: var(--ink); }
+.bar-fill.medium { background: var(--blue); }
+.bar-fill.low { background: var(--lime); }
+
+.bar-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.5;
+}
+
+/* =========================
+   CATEGORY CARD
+========================= */
+.category-card {
+  padding: 20px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 18px;
+}
+
+.category-card h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+}
+
+.category-row {
+  margin-bottom: 14px;
+}
+
+.category-row:last-child {
+  margin-bottom: 0;
+}
+
+.category-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+
+.category-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.category-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  opacity: 0.5;
+}
+
+.category-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: #f1f1f6;
+  overflow: hidden;
+}
+
+.category-fill {
+  height: 100%;
+  min-width: 10px;
+  border-radius: 999px;
+  background: var(--blue);
+  transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The h3 is the first <h3> child, rows are the first <div>s, so use nth-of-type */
+.category-row:nth-of-type(1) .category-fill { background: var(--blue); }
+.category-row:nth-of-type(2) .category-fill { background: var(--ink); }
+.category-row:nth-of-type(3) .category-fill {
+  background: var(--lime);
+  box-shadow: inset 0 0 0 1px rgba(168, 160, 31, 0.35);
+}
+.category-row:nth-of-type(4) .category-fill { background: var(--olive); }
+
+/* =========================
+   PRIORITY SUMMARY
+========================= */
+.priority-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.priority-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+
+  padding: 14px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+.pill-dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.priority-pill.high .pill-dot {
+  background: var(--ink);
+  box-shadow: 0 0 0 4px rgba(23, 22, 27, 0.1);
+}
+
+.priority-pill.medium .pill-dot {
+  background: var(--blue);
+  box-shadow: 0 0 0 4px rgba(55, 96, 249, 0.14);
+}
+
+.priority-pill.low .pill-dot {
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(210, 252, 89, 0.45);
+}
+
+.pill-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pill-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.6;
+}
+
+.pill-count {
+  font-size: 20px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+@media (prefers-reduced-motion: reduce) {
+  .timer-ring {
+    animation: none;
+  }
+
+  button,
+  .summary-card,
+  .bar-fill,
+  .category-fill,
+  .session-dots .dot {
+    transition: none;
+  }
+}

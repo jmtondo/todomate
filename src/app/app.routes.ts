@@ -79,6 +79,22 @@ export const routes: Routes = [
   },
 
   {
+    path: 'activity',
+    loadComponent: () =>
+      import('./pages/activity/activity.page').then(
+        (m) => m.ActivityPage
+      ),
+  },
+
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./pages/settings/settings.page').then(
+        (m) => m.SettingsPage
+      ),
+  },
+
+  {
     path: 'profile',
     loadComponent: () =>
       import('./pages/profile/profile.page').then(

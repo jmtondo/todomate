@@ -1,0 +1,289 @@
+<ion-content>
+
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-text">
+        <p class="label">Your productivity</p>
+        <h1>Activity</h1>
+      </div>
+
+      <ion-button
+        fill="clear"
+        class="filter-button"
+        (click)="switchView()">
+        <ion-icon
+          [name]="showStats ? 'bar-chart-outline' : 'timer-outline'"
+          slot="icon-only">
+        </ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Toggle -->
+    <div class="view-toggle">
+      <button
+        type="button"
+        class="toggle-button"
+        [class.active]="!showStats"
+        (click)="setView('pomodoro')">
+        <ion-icon name="timer-outline"></ion-icon>
+        Pomodoro
+      </button>
+
+      <button
+        type="button"
+        class="toggle-button"
+        [class.active]="showStats"
+        (click)="setView('stats')">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        Statistics
+      </button>
+    </div>
+
+    <!-- ===================== -->
+    <!-- POMODORO              -->
+    <!-- ===================== -->
+    <div *ngIf="!showStats" class="pomodoro-view">
+
+      <!-- Mode Switch -->
+      <div class="mode-row">
+        <button
+          type="button"
+          class="mode-button"
+          [class.active]="mode === 'focus'"
+          (click)="setMode('focus')">
+          Focus
+        </button>
+
+        <button
+          type="button"
+          class="mode-button"
+          [class.active]="mode === 'short'"
+          (click)="setMode('short')">
+          Short Break
+        </button>
+
+        <button
+          type="button"
+          class="mode-button"
+          [class.active]="mode === 'long'"
+          (click)="setMode('long')">
+          Long Break
+        </button>
+      </div>
+
+      <!-- Timer Ring -->
+      <div class="timer-ring">
+        <svg viewBox="0 0 200 200" class="ring-svg">
+          <circle
+            class="ring-bg"
+            cx="100"
+            cy="100"
+            r="90"
+            fill="none"
+            stroke="#e8e7ed"
+            stroke-width="12" />
+          <circle
+            class="ring-progress"
+            cx="100"
+            cy="100"
+            r="90"
+            fill="none"
+            [attr.stroke]="ringColor"
+            stroke-width="12"
+            stroke-linecap="round"
+            [attr.stroke-dasharray]="circumference"
+            [attr.stroke-dashoffset]="dashOffset"
+            transform="rotate(-90 100 100)" />
+        </svg>
+
+        <div class="timer-text">
+          <span class="time">{{ displayTime }}</span>
+          <span class="session-label">{{ modeLabel }}</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <ion-button
+          fill="clear"
+          class="control-button reset"
+          (click)="resetTimer()">
+          <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          class="play-button"
+          [class.running]="isRunning"
+          (click)="toggleTimer()">
+          <ion-icon
+            [name]="isRunning ? 'pause' : 'play'"
+            slot="start">
+          </ion-icon>
+          {{ buttonLabel }}
+        </ion-button>
+
+        <ion-button
+          fill="clear"
+          class="control-button skip"
+          (click)="skipTimer()">
+          <ion-icon name="play-skip-forward-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Session Counter -->
+      <div class="session-card">
+        <div class="session-info">
+          <p>Completed Sessions</p>
+          <h2>{{ completedSessions }}</h2>
+        </div>
+        <div class="session-dots">
+          <span
+            *ngFor="let s of [1,2,3,4,5,6,7,8]"
+            class="dot"
+            [class.filled]="s <= completedSessions">
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- STATISTICS            -->
+    <!-- ===================== -->
+    <div *ngIf="showStats" class="stats-view">
+
+      <!-- Period Switch -->
+      <div class="period-row">
+        <button
+          type="button"
+          class="period-button"
+          [class.active]="period === 'weekly'"
+          (click)="setPeriod('weekly')">
+          Weekly
+        </button>
+
+        <button
+          type="button"
+          class="period-button"
+          [class.active]="period === 'monthly'"
+          (click)="setPeriod('monthly')">
+          Monthly
+        </button>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-icon blue">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+          </div>
+          <div class="summary-text">
+            <h2>{{ totalCompleted }}</h2>
+            <p>Completed</p>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon yellow">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="summary-text">
+            <h2>{{ totalPending }}</h2>
+            <p>Pending</p>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon dark">
+            <ion-icon name="flame-outline"></ion-icon>
+          </div>
+          <div class="summary-text">
+            <h2>{{ completionRate }}%</h2>
+            <p>Rate</p>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon green">
+            <ion-icon name="trophy-outline"></ion-icon>
+          </div>
+          <div class="summary-text">
+            <h2>{{ bestDay?.label || '—' }}</h2>
+            <p>Best Day</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Tasks Completed</h3>
+          <span>{{ period === 'weekly' ? 'This Week' : 'This Month' }}</span>
+        </div>
+
+        <div class="bar-chart">
+          <div
+            *ngFor="let item of chartData"
+            class="bar-item">
+
+            <div class="bar-track">
+              <div
+                class="bar-fill"
+                [style.height.%]="item.height"
+                [class.high]="item.value > 0 && item.value >= chartMax * 0.66"
+                [class.medium]="item.value > 0 && item.value >= chartMax * 0.33 && item.value < chartMax * 0.66"
+                [class.low]="item.value > 0 && item.value < chartMax * 0.33">
+              </div>
+            </div>
+
+            <span class="bar-label">{{ item.label }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- By Category -->
+      <div class="category-card">
+        <h3>By Category</h3>
+
+        <div
+          *ngFor="let cat of categoryStats"
+          class="category-row">
+
+          <div class="category-top">
+            <span class="category-name">{{ cat.name }}</span>
+            <span class="category-count">{{ cat.count }} tasks</span>
+          </div>
+
+          <div class="category-bar">
+            <div
+              class="category-fill"
+              [style.width.%]="cat.percent">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- By Priority -->
+      <div class="priority-summary">
+        <div
+          *ngFor="let p of priorityStats"
+          class="priority-pill"
+          [class.high]="p.label === 'High'"
+          [class.medium]="p.label === 'Medium'"
+          [class.low]="p.label === 'Low'">
+
+          <span class="pill-dot"></span>
+          <div class="pill-text">
+            <span class="pill-label">{{ p.label }}</span>
+            <span class="pill-count">{{ p.count }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>

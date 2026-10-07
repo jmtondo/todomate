@@ -1,0 +1,182 @@
+<ion-content>
+
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="header">
+      <p class="label">Account & Preferences</p>
+      <h1>Settings</h1>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="avatar">
+        <span>{{ userInitials }}</span>
+      </div>
+
+      <div class="profile-info">
+        <h2>{{ userName }}</h2>
+        <p>{{ userEmail }}</p>
+      </div>
+
+      <ion-button
+        fill="clear"
+        class="edit-profile"
+        (click)="goProfile()">
+        <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- ========================= -->
+    <!-- GENERAL                   -->
+    <!-- ========================= -->
+    <div class="section" style="--delay: 0.05s">
+      <p class="section-label">General</p>
+
+      <div class="settings-group">
+
+        <!-- Language -->
+        <div class="settings-row static">
+          <div class="row-left">
+            <div class="row-icon green">
+              <ion-icon name="language-outline"></ion-icon>
+            </div>
+            <span>Language</span>
+          </div>
+
+          <div class="row-right">
+            <span class="row-value">{{ language }}</span>
+          </div>
+        </div>
+
+        <button
+          class="settings-row"
+          (click)="openPage('rate')">
+
+          <div class="row-left">
+            <div class="row-icon yellow">
+              <ion-icon name="star-outline"></ion-icon>
+            </div>
+            <span>Rate TodoMate</span>
+          </div>
+
+          <div class="row-right">
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </button>
+
+        <button
+          class="settings-row"
+          (click)="openPage('terms')">
+
+          <div class="row-left">
+            <div class="row-icon blue">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <span>Terms & Conditions</span>
+          </div>
+
+          <div class="row-right">
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- SUPPORT                   -->
+    <!-- ========================= -->
+    <div class="section" style="--delay: 0.1s">
+      <p class="section-label">Support</p>
+
+      <div class="settings-group">
+        <button
+          class="settings-row"
+          (click)="openPage('faq')">
+
+          <div class="row-left">
+            <div class="row-icon yellow">
+              <ion-icon name="help-circle-outline"></ion-icon>
+            </div>
+            <span>FAQs</span>
+          </div>
+
+          <div class="row-right">
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </button>
+
+        <button
+          class="settings-row"
+          (click)="openPage('help')">
+
+          <div class="row-left">
+            <div class="row-icon blue">
+              <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+            </div>
+            <span>Help & Support</span>
+          </div>
+
+          <div class="row-right">
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </button>
+
+        <button
+          class="settings-row"
+          (click)="openPage('privacy')">
+
+          <div class="row-left">
+            <div class="row-icon dark">
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+            </div>
+            <span>Privacy Policy</span>
+          </div>
+
+          <div class="row-right">
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- ABOUT                     -->
+    <!-- ========================= -->
+    <div class="section" style="--delay: 0.15s">
+      <p class="section-label">About</p>
+
+      <div class="settings-group">
+        <button
+          class="settings-row"
+          (click)="openPage('about')">
+
+          <div class="row-left">
+            <div class="row-icon green">
+              <ion-icon name="information-circle-outline"></ion-icon>
+            </div>
+            <span>About TodoMate</span>
+          </div>
+
+          <div class="row-right">
+            <span class="row-value">v1.0.0</span>
+            <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- LOGOUT                    -->
+    <!-- ========================= -->
+    <ion-button
+      expand="block"
+      class="logout-button"
+      (click)="confirmLogout()">
+
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Log Out
+    </ion-button>
+
+  </div>
+</ion-content>
